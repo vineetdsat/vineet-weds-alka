@@ -6,6 +6,8 @@
   --gold-deep: #b98a3a;
   --marigold: #f59e1b;
   --marigold-deep: #e0661a;
+  --rose: #f4a9bc;
+  --rose-deep: #d9708c;
   --gold-text: linear-gradient(180deg, #fbe7ae 0%, #e8bf62 45%, #c8913a 100%);
   --serif: "Cormorant Garamond", Georgia, serif;
   --caps: "Cinzel", "Times New Roman", serif;
@@ -33,7 +35,9 @@ section { position: relative; overflow: hidden; }
 /* Night sky: deep blue with a soft moonlit glow on top, warm diya glow at the bottom, and twinkling stars */
 .night {
   background:
-    radial-gradient(ellipse 90% 45% at 50% 105%, rgba(245,158,27,.22), transparent 70%),
+    radial-gradient(ellipse 90% 45% at 50% 105%, rgba(245,158,27,.2), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(217,112,140,.2), transparent 70%),
+    radial-gradient(ellipse 55% 35% at 100% 15%, rgba(217,112,140,.12), transparent 70%),
     radial-gradient(ellipse 80% 40% at 50% -5%, rgba(90,120,220,.25), transparent 70%),
     linear-gradient(180deg, var(--night) 0%, var(--night-2) 55%, var(--night) 100%);
   padding: clamp(120px, 16vw, 170px) 20px clamp(80px, 12vw, 130px);
@@ -118,12 +122,12 @@ section { position: relative; overflow: hidden; }
   position: fixed; inset: 0; z-index: 50; overflow: hidden;
   background: #070b22;
   perspective: 1600px;
-  --env: url(assets/img/env-portrait.jpg); --ar: calc(753 / 1350);
+  --env: url(assets/img/env-portrait.jpg?v=painted); --ar: calc(892 / 1600);
 }
 @media (min-aspect-ratio: 1/1) {
-  #gate { --env: url(assets/img/env-landscape.jpg); --ar: calc(1350 / 753); }
+  #gate { --env: url(assets/img/env-landscape.jpg?v=painted); --ar: calc(1800 / 1004); }
   /* on wide screens the envelope's plain centre circle is larger, so size the seal to cover it */
-  #gate .seal { width: calc(max(100vw, 100vh * 1350 / 753) * .205); }
+  #gate .seal { width: calc(max(100vw, 100vh * 1800 / 1004) * .19); }
 }
 /* the stage keeps the envelope photo's exact proportions (cropping the overflow like "cover"),
    so the flap cut lines land exactly on the embroidered seams */
@@ -151,7 +155,7 @@ section { position: relative; overflow: hidden; }
 .w-bottom { z-index: 2; filter: drop-shadow(0 -6px 10px rgba(0,0,0,.5)); }
 .w-top    { z-index: 3; filter: drop-shadow(0 10px 16px rgba(0,0,0,.6)); transform-origin: 50% 0; }
 .flap { position: absolute; inset: 0; background: var(--env) center / 100% 100% no-repeat; }
-.env-stage { filter: brightness(.72) saturate(.82) contrast(1.05); perspective: 1600px; }
+.env-stage { filter: brightness(.95); perspective: 1600px; }
 .flap::after {   /* a slow band of light that glints across the gold thread */
   content: ""; position: absolute; inset: 0; mix-blend-mode: overlay;
   background: linear-gradient(115deg, transparent 42%, rgba(255,240,205,.32) 50%, transparent 58%) 0 0 / 300% 100%;
@@ -310,7 +314,7 @@ section { position: relative; overflow: hidden; }
   filter: drop-shadow(0 2px 12px rgba(0,0,0,.5));
 }
 .hero-names .weds {
-  display: block; font-family: var(--script); color: var(--ivory);
+  display: block; font-family: var(--script); color: var(--rose);
   font-size: clamp(34px, 7vw, 56px); line-height: 1.1; margin: 2px 0 4px;
 }
 .hero-date { font-family: var(--caps); letter-spacing: .2em; font-size: clamp(15px, 2.2vw, 19px); color: var(--gold); }
@@ -380,7 +384,7 @@ body.opened .scroll-hint { animation: fade 1s ease 2s forwards; }
 }
 @media (min-width: 760px) { .couple-grid { grid-template-columns: 1fr 1fr; } }
 .couple figure { margin: 0; }
-.couple figcaption { font-family: var(--script); font-size: 42px; margin-top: 8px; color: var(--gold); }
+.couple figcaption { font-family: var(--script); font-size: 42px; margin-top: 8px; color: var(--rose); }
 .then img { width: min(78%, 340px); margin: 0 auto; filter: drop-shadow(0 0 30px rgba(245,158,27,.25)); }
 .framed { position: relative; width: min(86%, 400px); margin: 0 auto; aspect-ratio: 1493 / 2000; }
 .framed .frame { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; filter: drop-shadow(0 0 24px rgba(245,158,27,.35)); }
@@ -391,15 +395,15 @@ body.opened .scroll-hint { animation: fade 1s ease 2s forwards; }
 }
 .slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; opacity: 0; transform: scale(1.06); transition: opacity 1.4s ease, transform 6s ease; }
 .slides img.active { opacity: 1; transform: scale(1); }
-.note { max-width: 620px; margin: 44px auto 0; font-size: clamp(19px, 2.4vw, 22px); font-style: italic; }
+.note { max-width: 620px; margin: 44px auto 0; font-size: clamp(19px, 2.4vw, 22px); font-style: italic; color: #fbe3ea; }
 
 /* ---------- Events ---------- */
 .timeline { max-width: 1040px; margin: 0 auto; }
 .city-head {
   display: flex; align-items: center; gap: 16px; margin: 56px 0 28px;
-  font-family: var(--caps); letter-spacing: .2em; text-transform: uppercase; font-size: 14px; color: var(--marigold);
+  font-family: var(--caps); letter-spacing: .2em; text-transform: uppercase; font-size: 14px; color: var(--rose);
 }
-.city-head::before, .city-head::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-deep), transparent); }
+.city-head::before, .city-head::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--rose-deep), transparent); }
 .event {
   display: grid; grid-template-columns: 1fr; gap: 22px; align-items: center;
   margin: 0 auto 64px; max-width: 420px;
@@ -413,7 +417,7 @@ body.opened .scroll-hint { animation: fade 1s ease 2s forwards; }
 .arch {
   position: relative; aspect-ratio: 3 / 4; width: min(100%, 380px); margin: 0 auto;
   border-radius: 999px 999px 14px 14px; overflow: hidden;
-  border: 5px solid var(--gold); outline: 1px solid var(--marigold); outline-offset: 7px;
+  border: 5px solid var(--gold); outline: 1px solid var(--rose-deep); outline-offset: 7px;
   box-shadow: 0 0 40px rgba(245,158,27,.28);
   background: var(--night-2);
 }
@@ -421,7 +425,7 @@ body.opened .scroll-hint { animation: fade 1s ease 2s forwards; }
 .event:hover .arch img { transform: scale(1.04); }
 .arch.art-car { background: radial-gradient(ellipse at 50% 35%, #2a3a7a, var(--night)); }
 .arch.art-car img { object-fit: contain; object-position: 50% 78%; padding: 0 2%; }
-.event-day { font-family: var(--caps); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--marigold); }
+.event-day { font-family: var(--caps); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--rose); }
 .event h3 { font-family: var(--script); font-weight: 400; font-size: clamp(56px, 8vw, 76px); line-height: 1.25; margin: 4px 0 6px; padding: 0 .1em; }
 .event-time { font-size: 21px; }
 .event-venue { font-size: 21px; font-weight: 600; margin-top: 8px; color: var(--gold); }
@@ -471,7 +475,7 @@ body.opened .scroll-hint { animation: fade 1s ease 2s forwards; }
 .itinerary::before { content: ""; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(var(--marigold), var(--gold-deep)); }
 .step { position: relative; padding-bottom: 28px; }
 .step::before { content: ""; position: absolute; left: -32px; top: 6px; width: 18px; height: 18px; border-radius: 50%; background: var(--night); border: 2px solid var(--marigold); box-shadow: 0 0 10px rgba(245,158,27,.6); }
-.step-time { font-family: var(--caps); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--marigold); }
+.step-time { font-family: var(--caps); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--rose); }
 .step h3 { font-family: var(--caps); font-weight: 500; font-size: 22px; letter-spacing: .06em; color: var(--gold); margin: 2px 0; }
 .step-place { font-style: italic; color: var(--gold); opacity: .85; }
 .btn-solid { background: linear-gradient(180deg, #ffd27a, var(--marigold) 55%, var(--marigold-deep)); color: #2a1204; border-color: transparent; font-weight: 600; }
@@ -487,7 +491,7 @@ body.opened .scroll-hint { animation: fade 1s ease 2s forwards; }
   border: 1px solid rgba(228,185,94,.4); border-radius: 18px;
   padding: 30px 24px;
 }
-.know-card svg { width: 46px; height: 46px; fill: none; stroke: var(--marigold); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; margin: 0 auto 10px; }
+.know-card svg { width: 46px; height: 46px; fill: none; stroke: var(--rose); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; margin: 0 auto 10px; }
 .know-card h3 { font-family: var(--caps); font-weight: 500; letter-spacing: .12em; font-size: 20px; margin-bottom: 8px; color: var(--gold); }
 .know-card b { color: var(--marigold); font-weight: 600; }
 .know-card .btn { margin-top: 14px; }
