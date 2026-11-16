@@ -47,11 +47,11 @@ const WEDDING = {
       { time: '8:00 AM', title: 'Baraat Vidai', place: 'Ram Bhawan, Prayagraj', text: 'Blessings, tilak and a grand send-off as the convoy sets out on NH 330.' },
       { time: 'On the way', title: 'Pit Stop', place: 'Seeta Rasoi Dhaba, Guptarganj (Sultanpur)', text: 'A break for chai and a hearty meal on the Ayodhya–Prayagraj road.' },
       { time: 'Onwards', title: 'Via Ayodhya & Basti', place: 'Uttar Pradesh highways', text: 'Music, laughter and family, all the way to Gorakhpur.' },
-      { time: 'Arrival', title: 'Gorakhpur', place: 'The Tejas Restaurant & Banquet, Deoria Bypass Road', text: 'Time to rest, freshen up and get ready for the big night.' },
+      { time: 'Arrival', title: 'Gorakhpur', place: 'Ambe Palace, Indira Nagar', text: 'Time to rest, freshen up and get ready for the big night.' },
       { time: '9:00 PM', title: 'Baraat & Wedding', place: 'Ambe Palace, Gorakhpur', text: 'The baraat arrives in style for the jaimala and pheras.' },
       { time: 'Next day · 10 AM', title: 'Vidai', place: 'Ambe Palace, Gorakhpur', text: 'Farewells and blessings as the newlyweds head home.' },
     ],
-    directions: 'https://maps.app.goo.gl/ZFZ1eJQY74SRjSTj8',
+    directions: 'https://www.google.com/maps/dir/Prayagraj,+Uttar+Pradesh/Seeta+rasoi+dhaba+and+restaurant,+near,+Ayodhya+-+Prayagraj+Rd,+Guptarganj,+Sultanpur,+Uttar+Pradesh+228151/Ambey+Palace,+Indira+Nagar,+Gorakhpur,+Uttar+Pradesh+273017/data=!4m20!4m19!1m5!1m1!1s0x398534c9b20bd49f:0xa2237856ad4041a!2m2!1d81.8546019!2d25.468338!1m5!1m1!1s0x399a717d395160df:0x9e1ccd2681c9aa0e!2m2!1d82.1204348!2d26.3712057!1m5!1m1!1s0x3991437f658afc6f:0x331367468b5a08ad!2m2!1d83.379794!2d26.7326716!3e0',
   },
 };
 // ============================================================
