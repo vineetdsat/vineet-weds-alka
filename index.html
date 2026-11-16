@@ -135,14 +135,28 @@
     <!-- Baraat journey -->
     <section class="journey night" data-journey>
       <div class="toran"></div>
-      <p class="small-caps reveal">3rd February</p>
+      <p class="small-caps reveal">Wednesday · 3rd February</p>
       <h2 class="section-title reveal">The Baraat Journey</h2>
-      <div class="route reveal">
-        <div class="city"><span class="dot"></span>Prayagraj<small>Ram Bhawan · 8 AM</small></div>
-        <div class="road"><span></span></div>
-        <div class="city"><span class="dot"></span>Gorakhpur<small>Ambe Palace · 9 PM</small></div>
+      <p class="lead journey-intro reveal">From the Sangam city to the city of Gorakhnath, the baraat sets off at sunrise for the big day.</p>
+
+      <!-- winding route that draws itself as you scroll -->
+      <div class="route-map reveal" aria-hidden="true">
+        <svg viewBox="0 0 600 170" preserveAspectRatio="none">
+          <path class="route-shadow" d="M40 120 C140 20 220 160 300 90 S470 20 560 60"/>
+          <path class="route-line" id="route-line" d="M40 120 C140 20 220 160 300 90 S470 20 560 60"/>
+        </svg>
+        <span class="route-pin start"></span>
+        <span class="route-pin end"></span>
+        <span class="route-car" id="route-car"></span>
+        <span class="route-label start">Prayagraj</span>
+        <span class="route-label end">Gorakhpur</span>
       </div>
+
+      <div class="trip-stats" id="trip-stats"></div>
+
       <div class="car-stage"><img class="car" src="assets/img/car.png" alt="Vintage wedding car with marigold garland" loading="lazy"></div>
+
+      <ol class="itinerary" id="itinerary"></ol>
       <div class="journey-actions reveal" id="journey-actions"></div>
     </section>
 

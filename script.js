@@ -27,6 +27,24 @@ const WEDDING = {
     { name: 'Vidai',       start: '2027-02-04T10:00', venue: 'ambe',    city: 'Gorakhpur', art: 'courtyard.jpg' },
     { name: 'Reception',   start: '2027-02-05T19:00', venue: 'rajshri', city: 'Prayagraj', art: 'ev-reception.jpg' },
   ],
+
+  // Baraat Journey section (distance and drive time are approximate road figures)
+  journey: {
+    stats: [
+      { value: '~260 km', label: 'Distance' },
+      { value: '~6 hrs', label: 'By road' },
+      { value: '8:00 AM', label: 'Departure' },
+      { value: '9:00 PM', label: 'Wedding' },
+    ],
+    steps: [
+      { time: '8:00 AM', title: 'Baraat Vidai', place: 'Ram Bhawan, Prayagraj', text: 'Blessings, tilak and a grand send-off as the convoy sets out.' },
+      { time: 'Daytime', title: 'On the Road', place: 'Across Uttar Pradesh', text: 'Music, laughter and family, all the way to Gorakhpur.' },
+      { time: 'Evening', title: 'Arrival', place: 'Gorakhpur', text: 'Time to rest, freshen up and get ready for the big night.' },
+      { time: '9:00 PM', title: 'Baraat & Wedding', place: 'Ambe Palace, Gorakhpur', text: 'The baraat arrives in style for the jaimala and pheras.' },
+      { time: 'Next day · 10 AM', title: 'Vidai', place: 'Ambe Palace, Gorakhpur', text: 'Farewells and blessings as the newlyweds head home.' },
+    ],
+    directions: 'https://www.google.com/maps/dir/?api=1&origin=Ram+Bhawan+Allenganj+Prayagraj&destination=Ambe+Palace+Gorakhpur&travelmode=driving',
+  },
 };
 // ============================================================
 
@@ -93,8 +111,20 @@ function renderContent() {
     tl.append(el);
   });
 
-  $('#journey-actions').innerHTML = ['ram', 'ambe'].map((k) =>
-    `<a class="btn" href="${WEDDING.venues[k].map}" target="_blank" rel="noopener">${WEDDING.venues[k].name} map</a>`).join('');
+  const j = WEDDING.journey;
+  $('#trip-stats').innerHTML = j.stats.map((s) =>
+    `<div class="stat reveal"><b>${s.value}</b><span>${s.label}</span></div>`).join('');
+  $('#itinerary').innerHTML = j.steps.map((s) => `
+    <li class="step reveal">
+      <span class="step-time">${s.time}</span>
+      <h3>${s.title}</h3>
+      <p class="step-place">${s.place}</p>
+      <p>${s.text}</p>
+    </li>`).join('');
+  $('#journey-actions').innerHTML =
+    `<a class="btn btn-solid" href="${j.directions}" target="_blank" rel="noopener">Full route on Google Maps</a>` +
+    ['ram', 'ambe'].map((k) =>
+      `<a class="btn" href="${WEDDING.venues[k].map}" target="_blank" rel="noopener">${WEDDING.venues[k].name}</a>`).join('');
 }
 
 // ---------- Lanterns ----------
@@ -156,6 +186,7 @@ function setupScroll() {
   if (reduceMotion) {
     $$('[data-scene]').forEach((s) => s.style.setProperty('--text', 1));
     $('[data-journey]').style.setProperty('--trip', 1);
+    $('.route-map').classList.add('arrived');
     return;
   }
 
@@ -163,6 +194,11 @@ function setupScroll() {
   const dome = $('.hero-dome');
   const scenes = $$('[data-scene]');
   const journey = $('[data-journey]');
+  const routeMap = $('.route-map');
+  const routeLine = $('#route-line');
+  const routeCar = $('#route-car');
+  const routeLen = routeLine.getTotalLength();
+  routeLine.style.strokeDasharray = routeLen;
   let ticking = false;
 
   const clamp = (v) => Math.max(0, Math.min(1, v));
@@ -192,6 +228,15 @@ function setupScroll() {
     // journey: the car drives towards you as the section scrolls into view
     const jr = journey.getBoundingClientRect();
     journey.style.setProperty('--trip', clamp((vh - jr.top) / (jr.height + vh * 0.1)).toFixed(4));
+
+    // route map: the road draws itself from Prayagraj to Gorakhpur and the marker follows it
+    const mr = routeMap.getBoundingClientRect();
+    const rp = clamp((vh * 0.85 - mr.top) / (vh * 0.55));
+    routeLine.style.strokeDashoffset = routeLen * (1 - rp);
+    const pt = routeLine.getPointAtLength(routeLen * rp);
+    routeCar.style.left = `${(pt.x / 600) * 100}%`;
+    routeCar.style.top = `${(pt.y / 170) * 100}%`;
+    routeMap.classList.toggle('arrived', rp >= 1);
   }
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   addEventListener('resize', update);
