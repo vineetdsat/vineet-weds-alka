@@ -4,7 +4,7 @@
 const WEDDING = {
   hashtag: '#VinAlkaline',
   whatsapp: '917348903189',          // country code + number, no "+" or spaces
-  music: '',                         // e.g. 'assets/music.mp3' (leave empty to hide the music button)
+  music: 'assets/audio/song.m4a',    // Vaaroon (Mirzapur). Leave empty to hide the music button
   weddingTime: '2027-02-03T21:00:00+05:30',
   coupleNote:
     'Two different stories, one beautiful beginning. From little moments to a lifetime together, ' +
