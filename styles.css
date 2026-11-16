@@ -30,7 +30,8 @@ img { display: block; max-width: 100%; }
 button { font: inherit; cursor: pointer; }
 
 /* ---------- Shared ---------- */
-section { position: relative; overflow: hidden; }
+/* clip (not hidden) so pinned layers inside a section can stick to the screen */
+section { position: relative; overflow: hidden; overflow: clip; }
 
 /* Night sky: deep blue with a soft moonlit glow on top, warm diya glow at the bottom, and twinkling stars */
 .night {
@@ -143,7 +144,7 @@ section { position: relative; overflow: hidden; }
   filter: brightness(.8);
 }
 .env-light {   /* golden light that pours out from the centre */
-  position: absolute; left: 50%; top: 50%; z-index: 8; pointer-events: none; mix-blend-mode: screen;
+  position: absolute; left: 50%; top: 50%; z-index: 9; pointer-events: none; mix-blend-mode: screen;
   width: 34vmax; height: 34vmax; margin: -17vmax 0 0 -17vmax; border-radius: 50%;
   background: radial-gradient(circle, #fffbe8 0%, #ffe2a0 18%, rgba(245,158,27,.6) 42%, transparent 70%);
   transform: scale(0); opacity: 0;
@@ -167,9 +168,26 @@ section { position: relative; overflow: hidden; }
 .flap-left   { clip-path: polygon(0 0, 0 100%, 50% 50%); filter: brightness(.86); }
 .flap-right  { clip-path: polygon(100% 0, 100% 100%, 50% 50%); filter: brightness(.86); }
 
-.env-toran { z-index: 6; transition: opacity .6s, transform .9s; }
+.env-toran { z-index: 7; transition: opacity .6s, transform .9s; }
+/* painted lotus-and-vine flourishes in the four corners of the envelope */
+.env-corner {
+  position: absolute; z-index: 6; width: clamp(175px, 46vmin, 340px); pointer-events: none;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,.45));
+  animation: sway 7s ease-in-out infinite;
+  transition: opacity .7s ease, transform 1.2s ease;
+}
+.env-corner.tl { left: 8px; top: clamp(58px, 8.5vw, 96px); transform-origin: 0 0; }
+.env-corner.tr { right: 8px; top: clamp(58px, 8.5vw, 96px); transform-origin: 50% 0; scale: -1 1; }
+.env-corner.bl { left: 8px; bottom: 8px; transform-origin: 0 100%; animation-delay: -3.5s; }
+.env-corner.br { right: 8px; bottom: 8px; transform-origin: 50% 100%; scale: -1 1; animation-delay: -3.5s; }
+@keyframes sway { 50% { rotate: 1.5deg; } }
+#gate.opening .env-corner { opacity: 0; }
+#gate.opening .env-corner.tl { transform: translate(-30px, -20px); }
+#gate.opening .env-corner.tr { transform: translate(30px, -20px); }
+#gate.opening .env-corner.bl { transform: translate(-30px, 20px); }
+#gate.opening .env-corner.br { transform: translate(30px, 20px); }
 .env-hint {
-  position: absolute; left: 50%; bottom: clamp(36px, 9vh, 90px); z-index: 7; transform: translateX(-50%);
+  position: absolute; left: 50%; bottom: clamp(36px, 9vh, 90px); z-index: 8; transform: translateX(-50%);
   margin: 0; padding: 9px 20px; border-radius: 999px; white-space: nowrap;
   background: rgba(7,11,34,.62); border: 1px solid rgba(228,185,94,.45); backdrop-filter: blur(3px);
   font-family: var(--caps); letter-spacing: .3em; font-size: clamp(10px, 1.5vh, 13px); text-transform: uppercase; color: #f3d38a;
@@ -179,7 +197,7 @@ section { position: relative; overflow: hidden; }
 
 /* the wax seal is the button */
 .seal {
-  position: absolute; left: 50%; top: 50%; z-index: 7;
+  position: absolute; left: 50%; top: 50%; z-index: 8;
   width: clamp(140px, 23vh, 200px); aspect-ratio: 416 / 434; margin: 0; padding: 0;
   transform: translate(-50%, -50%);
   border: none; background: none; border-radius: 50%;
@@ -291,6 +309,9 @@ section { position: relative; overflow: hidden; }
   100% { transform: translate3d(var(--sway), -130vh, 0) rotate(-2deg); opacity: 0; }
 }
 @keyframes flicker { from { opacity: .65; } to { opacity: 1; } }
+
+.night > .lantern-sky { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.lantern-sky > .lanterns { position: sticky; top: 0; height: 100vh; height: 100svh; max-height: 100%; opacity: .75; }
 
 /* ---------- Hero ---------- */
 .hero { height: 100vh; height: 100svh; min-height: 560px; }
@@ -548,7 +569,7 @@ body.opened .scroll-hint { animation: fade 1s ease 2s forwards; }
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .lantern, .seal, .seal-ring, .seal-glow, .flap::after, .env-hint, .scroll-hint span, .night::before { animation: none !important; }
+  .lantern, .seal, .seal-ring, .seal-glow, .flap::after, .env-hint, .env-corner, .scroll-hint span, .night::before { animation: none !important; }
   .lantern { opacity: .8; bottom: var(--still-y, 20%); }
   .reveal { transition: none; opacity: 1; transform: none; filter: none; }
 }
