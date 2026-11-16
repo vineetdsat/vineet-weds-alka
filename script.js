@@ -206,9 +206,9 @@ function setupGate() {
     setTimeout(() => {
       gate.classList.add('open');
       document.body.classList.remove('locked');
-    }, reduceMotion ? 0 : 650);
-    setTimeout(() => document.body.classList.add('opened'), reduceMotion ? 0 : 1200);
-    setTimeout(() => gate.classList.add('gone'), reduceMotion ? 0 : 2400);
+    }, reduceMotion ? 0 : 600);
+    setTimeout(() => document.body.classList.add('opened'), reduceMotion ? 0 : 1500);
+    setTimeout(() => gate.classList.add('gone'), reduceMotion ? 0 : 2800);
   }, { passive: true });
 }
 
