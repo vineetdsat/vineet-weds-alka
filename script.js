@@ -28,25 +28,25 @@ const WEDDING = {
     { name: 'Reception',   start: '2027-02-05T19:00', venue: 'rajshri', city: 'Prayagraj', art: 'ev-reception.jpg' },
   ],
 
-  // Baraat Journey section (route figures from Google Maps: 288 km, 5 hr 19 min via NH 330)
+  // Baraat Journey section (route figures from Google Maps: 288 km, 5 hr 19 min)
   journey: {
     stats: [
       { value: '288 km', label: 'Distance' },
       { value: '5 hr 20 min', label: 'Drive' },
-      { value: 'NH 330', label: 'Highway' },
+      { value: 'Purvanchal', label: 'Expressway' },
       { value: '8:00 AM', label: 'Departure' },
     ],
     // towns marked along the road on the route map; at = how far along the trip (0 to 1)
     towns: [
+      { name: 'Pratapgarh', at: 0.2 },
       { name: 'Sultanpur', at: 0.38, stop: true },
-      { name: 'Ayodhya', at: 0.58 },
-      { name: 'Basti', at: 0.8 },
+      { name: 'Purvanchal Expy', at: 0.68 },
     ],
-    via: 'Prayagraj · Sultanpur · Ayodhya · Basti · Gorakhpur',
+    via: 'Prayagraj · Pratapgarh · Sultanpur · Gorakhpur, via the Purvanchal Expressway',
     steps: [
-      { time: '8:00 AM', title: 'Baraat Vidai', place: 'Ram Bhawan, Prayagraj', text: 'Blessings, tilak and a grand send-off as the convoy sets out on NH 330.' },
-      { time: 'On the way', title: 'Pit Stop', place: 'Seeta Rasoi Dhaba, Guptarganj (Sultanpur)', text: 'A break for chai and a hearty meal on the Ayodhya–Prayagraj road.' },
-      { time: 'Onwards', title: 'Via Ayodhya & Basti', place: 'Uttar Pradesh highways', text: 'Music, laughter and family, all the way to Gorakhpur.' },
+      { time: '8:00 AM', title: 'Baraat Vidai', place: 'Ram Bhawan, Prayagraj', text: 'Blessings, tilak and a grand send-off as the convoy sets out via Pratapgarh.' },
+      { time: 'On the way', title: 'Pit Stop', place: 'Seeta Rasoi Dhaba, Guptarganj (Sultanpur)', text: 'A break for chai and a hearty meal before the expressway.' },
+      { time: 'Onwards', title: 'Purvanchal Expressway', place: 'Sultanpur to Gorakhpur', text: 'Music, laughter and family, all the way to Gorakhpur.' },
       { time: 'Arrival', title: 'Gorakhpur', place: 'Ambe Palace, Indira Nagar', text: 'Time to rest, freshen up and get ready for the big night.' },
       { time: '9:00 PM', title: 'Baraat & Wedding', place: 'Ambe Palace, Gorakhpur', text: 'The baraat arrives in style for the jaimala and pheras.' },
       { time: 'Next day · 10 AM', title: 'Vidai', place: 'Ambe Palace, Gorakhpur', text: 'Farewells and blessings as the newlyweds head home.' },
