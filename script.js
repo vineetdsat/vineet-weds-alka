@@ -186,13 +186,18 @@ function setupGate() {
     music.addEventListener('pause', () => btn.classList.remove('playing'));
   }
 
+  // seal glows and breaks, then the flaps fold open and light floods out
   $('#open-btn').addEventListener('click', () => {
+    if (gate.classList.contains('opening')) return;
     if (WEDDING.music) music.play().catch(() => {});
-    gate.classList.add('open');
-    document.body.classList.remove('locked');
-    document.body.classList.add('opened');
-    setTimeout(() => gate.classList.add('gone'), 1700);
-  });
+    gate.classList.add('opening');
+    setTimeout(() => {
+      gate.classList.add('open');
+      document.body.classList.remove('locked');
+    }, reduceMotion ? 0 : 650);
+    setTimeout(() => document.body.classList.add('opened'), reduceMotion ? 0 : 1200);
+    setTimeout(() => gate.classList.add('gone'), reduceMotion ? 0 : 2400);
+  }, { passive: true });
 }
 
 // ---------- Scroll effects ----------
