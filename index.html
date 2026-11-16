@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Vineet & Alka · Wedding Invitation</title>
   <meta name="description" content="Vineet & Alka are getting married · 1–5 February 2027 · Prayagraj & Gorakhpur">
-  <meta name="theme-color" content="#1a2852">
+  <meta name="theme-color" content="#0a1130">
 
-  <!-- Link preview (WhatsApp / Instagram). After deploying, change og:image to the full URL, e.g. https://yoursite/assets/img/us-2.jpg -->
+  <!-- Link preview (WhatsApp / Instagram) -->
   <meta property="og:title" content="Vineet & Alka are getting married">
   <meta property="og:description" content="1–5 February 2027 · Prayagraj & Gorakhpur. Tap to open your invitation.">
   <meta property="og:image" content="https://vineetdsat.github.io/vineet-weds-alka/assets/img/us-2.jpg">
@@ -25,12 +25,13 @@
 
   <!-- Opening gate -->
   <div id="gate" aria-label="Wedding invitation cover">
-    <div class="door door-left" data-scene-bg="bg-gate" style="--bg:#fbf0e0"></div>
-    <div class="door door-right" data-scene-bg="bg-gate" style="--bg:#fbf0e0"></div>
+    <div class="door door-left night"><div class="toran"></div></div>
+    <div class="door door-right night"><div class="toran"></div></div>
+    <div class="lanterns gate-lanterns" data-lanterns="18"></div>
     <div class="gate-content">
       <p class="gate-kicker">You are cordially invited</p>
-      <img class="gate-monogram" src="assets/img/monogram.jpg" alt="A & V monogram">
-      <p class="gate-names">Vineet <span>&</span> Alka</p>
+      <img class="gate-monogram" src="assets/img/monogram.png" alt="A & V monogram">
+      <p class="gate-names gold-text">Vineet <span>&</span> Alka</p>
       <button id="open-btn" class="gate-btn" type="button">
         <span class="pulse"></span>Tap to open
       </button>
@@ -84,19 +85,23 @@
     </section>
 
     <!-- Invitation -->
-    <section class="invite tex" data-scene-bg="bg-invite" style="--bg:#dcefe9">
+    <section class="invite night">
+      <div class="toran"></div>
+      <div class="lanterns" data-lanterns="12"></div>
+      <img class="lotus-bg" src="assets/img/lotus.svg" alt="">
       <p class="shloka reveal" lang="hi">॥ श्री गणेशाय नमः ॥</p>
-      <img class="ganesh reveal" src="assets/img/ganesh.png" alt="Lord Ganesha" loading="lazy">
+      <img class="ganesh reveal" src="assets/img/ganesh.png?v=gold" alt="Lord Ganesha" loading="lazy">
       <p class="small-caps reveal">With the blessings of Lord Ganesha<br>and the love of our families</p>
       <h2 class="invite-title reveal">Invite</h2>
       <p class="lead reveal">you to join us in the wedding celebrations of</p>
       <p class="script-names reveal">Vineet <span>&</span> Alka</p>
-      <div class="divider reveal" aria-hidden="true"></div>
+      <img class="lotus reveal" src="assets/img/lotus.svg" alt="" aria-hidden="true">
       <p class="lead reveal">1 – 5 February 2027<br>Prayagraj &amp; Gorakhpur</p>
     </section>
 
     <!-- Bride & groom -->
-    <section class="couple tex" data-scene-bg="bg-couple" style="--bg:#fbe6e4">
+    <section class="couple night">
+      <div class="toran"></div>
       <p class="small-caps reveal">Meet the</p>
       <h2 class="section-title reveal">Bride &amp; Groom</h2>
       <div class="couple-grid">
@@ -120,14 +125,16 @@
     </section>
 
     <!-- Events -->
-    <section id="events" class="events tex" data-scene-bg="bg-events" style="--bg:#fbefdc;--half:21vh">
+    <section id="events" class="events night">
+      <div class="toran"></div>
       <p class="small-caps reveal">Five days · Two cities</p>
       <h2 class="section-title reveal">The Celebrations</h2>
       <div class="timeline" id="timeline"></div>
     </section>
 
     <!-- Baraat journey -->
-    <section class="journey tex" data-scene-bg="bg-journey" style="--bg:#eaf4ee" data-journey>
+    <section class="journey night" data-journey>
+      <div class="toran"></div>
       <p class="small-caps reveal">3rd February</p>
       <h2 class="section-title reveal">The Baraat Journey</h2>
       <div class="route reveal">
@@ -140,7 +147,8 @@
     </section>
 
     <!-- Things to know -->
-    <section class="know tex" data-scene-bg="bg-know" style="--bg:#fcf3df">
+    <section class="know night">
+      <div class="toran"></div>
       <h2 class="section-title reveal">Things to Know</h2>
       <div class="know-grid">
         <article class="know-card reveal">
@@ -168,27 +176,6 @@
       </div>
     </section>
 
-    <!-- RSVP -->
-    <section id="rsvp" class="rsvp tex" data-scene-bg="bg-rsvp" style="--bg:#f2d3c8">
-      <h2 class="section-title reveal">Please RSVP</h2>
-      <p class="lead reveal">Let us know you're coming. Your reply opens in WhatsApp, ready to send.</p>
-      <form class="rsvp-form reveal" id="rsvp-form">
-        <label>Your name
-          <input type="text" name="name" required autocomplete="name" placeholder="e.g. Rahul Sharma">
-        </label>
-        <label>Number of guests
-          <select name="guests">
-            <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6+</option>
-          </select>
-        </label>
-        <fieldset>
-          <legend>Which events will you attend?</legend>
-          <div class="checks" id="rsvp-events"></div>
-        </fieldset>
-        <button class="btn btn-solid" type="submit">Send RSVP on WhatsApp</button>
-      </form>
-    </section>
-
     <!-- Countdown -->
     <section class="finale">
       <img class="finale-bg" src="assets/img/palace-night.jpg" alt="Palace lit up at night" loading="lazy">
@@ -204,6 +191,7 @@
         <p class="lead reveal">until we say <i>"I do"</i> · 3 February 2027</p>
       </div>
       <footer class="footer">
+        <img class="lotus" src="assets/img/lotus.svg" alt="" aria-hidden="true">
         <p class="script-names">Vineet <span>&</span> Alka</p>
         <p class="footer-tag" id="footer-tag"></p>
         <p class="footer-small">We can't wait to celebrate with you</p>

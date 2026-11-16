@@ -60,14 +60,6 @@ function calLink(ev) {
 
 // ---------- Content from config ----------
 function renderContent() {
-  $$('[data-scene-bg]').forEach((el) => {
-    const s = document.createElement('div');
-    s.className = 'scenery';
-    s.setAttribute('aria-hidden', 'true');
-    s.innerHTML = `<div style="--scene:url(assets/img/${el.dataset.sceneBg}.jpg)"></div>`;
-    el.prepend(s);
-  });
-
   $('#couple-note').textContent = WEDDING.coupleNote;
   $('#hashtag').textContent = WEDDING.hashtag;
   $('#footer-tag').textContent = WEDDING.hashtag;
@@ -103,9 +95,6 @@ function renderContent() {
 
   $('#journey-actions').innerHTML = ['ram', 'ambe'].map((k) =>
     `<a class="btn" href="${WEDDING.venues[k].map}" target="_blank" rel="noopener">${WEDDING.venues[k].name} map</a>`).join('');
-
-  $('#rsvp-events').innerHTML = WEDDING.events.map((ev) =>
-    `<label><input type="checkbox" name="events" value="${ev.name}" checked>${ev.name}</label>`).join('');
 }
 
 // ---------- Lanterns ----------
@@ -251,19 +240,6 @@ function setupHashtag() {
   });
 }
 
-// ---------- RSVP via WhatsApp ----------
-function setupRsvp() {
-  $('#rsvp-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const f = new FormData(e.target);
-    const events = f.getAll('events');
-    const msg =
-      `Hi Vineet & Alka! 🎉\n\nRSVP from: ${f.get('name')}\nGuests: ${f.get('guests')}\n` +
-      `Attending: ${events.length ? events.join(', ') : 'Sorry, we can\'t make it'}\n\nSee you there! ${WEDDING.hashtag}`;
-    window.open(waLink(msg), '_blank', 'noopener');
-  });
-}
-
 renderContent();
 makeLanterns();
 setupGate();
@@ -271,4 +247,3 @@ setupScroll();
 setupSlides();
 setupCountdown();
 setupHashtag();
-setupRsvp();
