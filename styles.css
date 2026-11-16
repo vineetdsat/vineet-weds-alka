@@ -122,7 +122,6 @@ section { position: relative; overflow: hidden; overflow: clip; }
 .gate-content {
   position: relative; text-align: center; padding: 20px;
   transition: opacity .6s ease, transform .8s ease;
-  z-index: 2;
 }
 .gate-kicker { font-family: var(--caps); letter-spacing: .25em; font-size: 12px; text-transform: uppercase; color: #8a6424; }
 .gate-monogram {
