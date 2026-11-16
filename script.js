@@ -184,6 +184,18 @@ function setupGate() {
     btn.addEventListener('click', () => (music.paused ? music.play() : music.pause()));
     music.addEventListener('play', () => btn.classList.add('playing'));
     music.addEventListener('pause', () => btn.classList.remove('playing'));
+
+    // pause when the guest switches tab, app or locks the phone; resume on return
+    // only if it was playing (so a guest who muted it stays muted)
+    let resumeOnReturn = false;
+    const pauseAway = () => {
+      if (!music.paused) { resumeOnReturn = true; music.pause(); }
+    };
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) pauseAway();
+      else if (resumeOnReturn) { resumeOnReturn = false; music.play().catch(() => {}); }
+    });
+    addEventListener('pagehide', pauseAway);
   }
 
   // seal glows and breaks, then the flaps fold open and light floods out
