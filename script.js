@@ -28,22 +28,30 @@ const WEDDING = {
     { name: 'Reception',   start: '2027-02-05T19:00', venue: 'rajshri', city: 'Prayagraj', art: 'ev-reception.jpg' },
   ],
 
-  // Baraat Journey section (distance and drive time are approximate road figures)
+  // Baraat Journey section (route figures from Google Maps: 288 km, 5 hr 19 min via NH 330)
   journey: {
     stats: [
-      { value: '~260 km', label: 'Distance' },
-      { value: '~6 hrs', label: 'By road' },
+      { value: '288 km', label: 'Distance' },
+      { value: '5 hr 20 min', label: 'Drive' },
+      { value: 'NH 330', label: 'Highway' },
       { value: '8:00 AM', label: 'Departure' },
-      { value: '9:00 PM', label: 'Wedding' },
     ],
+    // towns marked along the road on the route map; at = how far along the trip (0 to 1)
+    towns: [
+      { name: 'Sultanpur', at: 0.38, stop: true },
+      { name: 'Ayodhya', at: 0.58 },
+      { name: 'Basti', at: 0.8 },
+    ],
+    via: 'Prayagraj · Sultanpur · Ayodhya · Basti · Gorakhpur',
     steps: [
-      { time: '8:00 AM', title: 'Baraat Vidai', place: 'Ram Bhawan, Prayagraj', text: 'Blessings, tilak and a grand send-off as the convoy sets out.' },
-      { time: 'Daytime', title: 'On the Road', place: 'Across Uttar Pradesh', text: 'Music, laughter and family, all the way to Gorakhpur.' },
-      { time: 'Evening', title: 'Arrival', place: 'Gorakhpur', text: 'Time to rest, freshen up and get ready for the big night.' },
+      { time: '8:00 AM', title: 'Baraat Vidai', place: 'Ram Bhawan, Prayagraj', text: 'Blessings, tilak and a grand send-off as the convoy sets out on NH 330.' },
+      { time: 'On the way', title: 'Pit Stop', place: 'Seeta Rasoi Dhaba, Guptarganj (Sultanpur)', text: 'A break for chai and a hearty meal on the Ayodhya–Prayagraj road.' },
+      { time: 'Onwards', title: 'Via Ayodhya & Basti', place: 'Uttar Pradesh highways', text: 'Music, laughter and family, all the way to Gorakhpur.' },
+      { time: 'Arrival', title: 'Gorakhpur', place: 'The Tejas Restaurant & Banquet, Deoria Bypass Road', text: 'Time to rest, freshen up and get ready for the big night.' },
       { time: '9:00 PM', title: 'Baraat & Wedding', place: 'Ambe Palace, Gorakhpur', text: 'The baraat arrives in style for the jaimala and pheras.' },
       { time: 'Next day · 10 AM', title: 'Vidai', place: 'Ambe Palace, Gorakhpur', text: 'Farewells and blessings as the newlyweds head home.' },
     ],
-    directions: 'https://www.google.com/maps/dir/?api=1&origin=Ram+Bhawan+Allenganj+Prayagraj&destination=Ambe+Palace+Gorakhpur&travelmode=driving',
+    directions: 'https://maps.app.goo.gl/ZFZ1eJQY74SRjSTj8',
   },
 };
 // ============================================================
@@ -114,6 +122,17 @@ function renderContent() {
   const j = WEDDING.journey;
   $('#trip-stats').innerHTML = j.stats.map((s) =>
     `<div class="stat reveal"><b>${s.value}</b><span>${s.label}</span></div>`).join('');
+  $('#trip-via').textContent = `Route: ${j.via}`;
+
+  // place each town on the curve of the route map
+  const line = $('#route-line');
+  const len = line.getTotalLength();
+  $('.route-map').insertAdjacentHTML('beforeend', j.towns.map((t, i) => {
+    const p = line.getPointAtLength(len * t.at);
+    const pos = `left:${(p.x / 600) * 100}%;top:${(p.y / 240) * 100}%`;
+    return `<span class="town${t.stop ? ' stop' : ''}" style="${pos}" data-at="${t.at}"></span>` +
+      `<span class="town-label ${i % 2 ? 'below' : 'above'}" style="${pos}">${t.name}${t.stop ? '<small>pit stop</small>' : ''}</span>`;
+  }).join(''));
   $('#itinerary').innerHTML = j.steps.map((s) => `
     <li class="step reveal">
       <span class="step-time">${s.time}</span>
@@ -199,6 +218,7 @@ function setupScroll() {
   const routeCar = $('#route-car');
   const routeLen = routeLine.getTotalLength();
   routeLine.style.strokeDasharray = routeLen;
+  const towns = $$('.route-map .town');
   let ticking = false;
 
   const clamp = (v) => Math.max(0, Math.min(1, v));
@@ -235,8 +255,9 @@ function setupScroll() {
     routeLine.style.strokeDashoffset = routeLen * (1 - rp);
     const pt = routeLine.getPointAtLength(routeLen * rp);
     routeCar.style.left = `${(pt.x / 600) * 100}%`;
-    routeCar.style.top = `${(pt.y / 170) * 100}%`;
+    routeCar.style.top = `${(pt.y / 240) * 100}%`;
     routeMap.classList.toggle('arrived', rp >= 1);
+    towns.forEach((t) => t.classList.toggle('passed', rp >= +t.dataset.at));
   }
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   addEventListener('resize', update);
