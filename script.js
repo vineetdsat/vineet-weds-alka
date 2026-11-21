@@ -198,7 +198,22 @@ function setupGate() {
     addEventListener('pagehide', pauseAway);
   }
 
-  // seal glows and breaks, then the flaps fold open and light floods out
+  // personal greeting: share links like ?to=Sharma%20family to show "Dear Sharma family,"
+  const to = new URLSearchParams(location.search).get('to');
+  if (to && to.trim()) $('#gate-dear').textContent = `Dear ${to.trim().slice(0, 60)},`;
+
+  // golden sparks that rise once the ghat is lit
+  const sparks = $('.gate-sparks');
+  for (let i = 0; i < (innerWidth < 700 ? 22 : 36); i++) {
+    const s = document.createElement('span');
+    s.className = 'spark';
+    const d = 3 + Math.random() * 4;
+    s.style.cssText = `--x:${(Math.random() * 100).toFixed(1)}%;--s:${(2 + Math.random() * 4).toFixed(1)}px;` +
+      `--d:${d.toFixed(1)}s;--delay:${(0.8 + Math.random() * d).toFixed(1)}s;--sway:${((Math.random() - 0.5) * 80).toFixed(0)}px`;
+    sparks.append(s);
+  }
+
+  // the diya catches, light spreads along the ghat, the names appear, then it dissolves into the invitation
   $('#open-btn').addEventListener('click', () => {
     if (gate.classList.contains('opening')) return;
     if (WEDDING.music) music.play().catch(() => {});
@@ -206,9 +221,9 @@ function setupGate() {
     setTimeout(() => {
       gate.classList.add('open');
       document.body.classList.remove('locked');
-    }, reduceMotion ? 0 : 600);
-    setTimeout(() => document.body.classList.add('opened'), reduceMotion ? 0 : 1500);
-    setTimeout(() => gate.classList.add('gone'), reduceMotion ? 0 : 2800);
+    }, reduceMotion ? 0 : 4600);
+    setTimeout(() => document.body.classList.add('opened'), reduceMotion ? 0 : 5000);
+    setTimeout(() => gate.classList.add('gone'), reduceMotion ? 0 : 6000);
   }, { passive: true });
 }
 

@@ -17,32 +17,36 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Pinyon+Script&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="assets/img/sky.jpg">
-  <link rel="stylesheet" href="styles.css?v=38">
+  <link rel="preload" as="image" href="assets/img/ghat-v-dark.jpg" media="(max-aspect-ratio: 1/1)">
+  <link rel="preload" as="image" href="assets/img/ghat-h-dark.jpg" media="(min-aspect-ratio: 1/1)">
+  <link rel="stylesheet" href="styles.css?v=40">
   <noscript><style>#gate{display:none}body{overflow:auto}</style></noscript>
 </head>
 <body class="locked">
 
   <!-- Opening gate -->
-  <!-- Opening envelope: silk-and-zardozi envelope split into four flaps under a wax seal; tapping the seal opens it -->
-  <div id="gate" aria-label="Wedding invitation envelope">
-    <div class="env-stage">
-      <div class="env-inside"></div>
-      <div class="flap-wrap w-left"><div class="flap flap-left"></div></div>
-      <div class="flap-wrap w-right"><div class="flap flap-right"></div></div>
-      <div class="flap-wrap w-bottom"><div class="flap flap-bottom"></div></div>
-      <div class="flap-wrap w-top">
-        <div class="flap flap-top"></div>
-        <button id="open-btn" class="seal" type="button" aria-label="Tap the seal to open the invitation">
-          <span class="seal-glow"></span>
-          <span class="seal-ring"></span>
-          <span class="seal-body"><img src="assets/img/seal.png?v=2" alt=""><span class="seal-mono">A<i>&amp;</i>V</span></span>
-        </button>
-      </div>
+  <!-- Opening: the Sangam ghat at night; tapping the diya lights every lamp, then it dissolves into the invitation -->
+  <div id="gate" aria-label="Wedding invitation">
+    <div class="ghat">
+      <div class="ghat-dark"></div>
+      <div class="ghat-lit"></div>
     </div>
-    <div class="env-light"></div>
+    <div class="gate-sparks" aria-hidden="true"></div>
     <div class="toran env-toran"></div>
-    <p class="env-hint">Tap the seal to open</p>
+    <div class="gate-top">
+      <p class="gate-dear" id="gate-dear">Dear guests,</p>
+      <p class="gate-invited">You are warmly invited</p>
+    </div>
+    <div class="gate-names-lit" aria-hidden="true">
+      <p class="small-caps">the wedding celebrations of</p>
+      <p class="gate-couple gold-text">Vineet <span>&amp;</span> Alka</p>
+    </div>
+    <button id="open-btn" class="diya-btn" type="button" aria-label="Tap the diya to light the ghat and open the invitation">
+      <span class="diya-halo"></span>
+      <img class="diya-img diya-off" src="assets/img/diya-dark.png" alt="">
+      <img class="diya-img diya-on" src="assets/img/diya-lit.png" alt="">
+      <span class="diya-label">Tap to light the diyas</span>
+    </button>
   </div>
 
   <button id="music-btn" class="music-btn" type="button" aria-label="Play or pause music" hidden>
@@ -230,6 +234,6 @@
     </section>
   </main>
 
-  <script src="script.js?v=27"></script>
+  <script src="script.js?v=28"></script>
 </body>
 </html>
