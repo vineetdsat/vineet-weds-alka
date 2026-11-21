@@ -54,8 +54,7 @@ section { position: relative; overflow: hidden; overflow: clip; }
     radial-gradient(1px 1px at 260px 40px, rgba(255,255,255,.8), transparent),
     radial-gradient(1.3px 1.3px at 330px 260px, #fff, transparent);
   background-size: 360px 300px;
-  opacity: .55;
-  animation: twinkle 5s ease-in-out infinite alternate;
+  opacity: .5;
 }
 .night > * { position: relative; z-index: 1; }
 @keyframes twinkle { from { opacity: .3; } to { opacity: .7; } }
@@ -115,8 +114,8 @@ section { position: relative; overflow: hidden; overflow: clip; }
 }
 .btn:hover { background: var(--gold); color: var(--night); transform: translateY(-1px); }
 
-.reveal { opacity: 0; transform: translateY(28px); filter: blur(4px); transition: opacity 1s ease, transform 1s ease, filter 1s ease; }
-.reveal.in { opacity: 1; transform: none; filter: none; }
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 1s ease, transform 1s ease; }
+.reveal.in { opacity: 1; transform: none; }
 
 /* ---------- Opening: light the ghat ---------- */
 @property --r { syntax: '<length>'; inherits: false; initial-value: 0px; }
@@ -219,7 +218,7 @@ section { position: relative; overflow: hidden; overflow: clip; }
   position: fixed; right: 16px; bottom: 16px; z-index: 40;
   width: 50px; height: 50px; border-radius: 50%;
   border: 1px solid var(--gold);
-  background: rgba(10,17,48,.7); backdrop-filter: blur(6px);
+  background: rgba(10,17,48,.88);
   display: grid; place-items: center;
   box-shadow: 0 0 18px rgba(245,158,27,.35);
 }
@@ -232,12 +231,14 @@ section { position: relative; overflow: hidden; overflow: clip; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ---------- Lanterns ---------- */
-.lanterns { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.lanterns { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; contain: strict; }
+/* only animate lanterns that are on screen */
+.lanterns:not(.live) { visibility: hidden; }
+.lanterns:not(.live) .lantern, .lanterns:not(.live) .lantern::before { animation-play-state: paused; }
 .lantern {
   position: absolute; left: var(--x); bottom: -12%;
   width: calc(30px * var(--s)); height: calc(40px * var(--s));
   opacity: 0;
-  filter: blur(var(--b));
   animation: rise var(--d) linear var(--delay) infinite;
   will-change: transform, opacity;
 }

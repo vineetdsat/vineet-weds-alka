@@ -164,12 +164,15 @@ function makeLanterns() {
         `--delay:${(-Math.random() * d).toFixed(1)}s`,
         `--sway:${((Math.random() - 0.5) * 140).toFixed(0)}px`,
         `--o:${(0.55 + depth * 0.45).toFixed(2)}`,
-        `--b:${depth < 0.25 ? 1.5 : depth > 0.9 ? 1 : 0}px`,
         `--still-y:${(Math.random() * 80 + 10).toFixed(0)}%`,
       ].join(';');
       box.append(l);
     }
   });
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => e.target.classList.toggle('live', e.isIntersecting));
+  }, { rootMargin: '100px 0px' });
+  $$('[data-lanterns]').forEach((box) => io.observe(box));
 }
 
 // ---------- Gate & music ----------
@@ -253,6 +256,23 @@ function setupScroll() {
   const towns = $$('.route-map .town');
   let ticking = false;
 
+  // only work on sections that are on (or near) the screen
+  const near = new Set();
+  const nearIO = new IntersectionObserver((entries) => {
+    entries.forEach((e) => (e.isIntersecting ? near.add(e.target) : near.delete(e.target)));
+    requestUpdate();
+  }, { rootMargin: '50% 0px' });
+  [...scenes, journey, routeMap].forEach((el) => nearIO.observe(el));
+
+  // skip style writes when a value has not changed
+  const last = new WeakMap();
+  const setVar = (el, name, val) => {
+    if (last.get(el)?.[name] === val) return;
+    last.set(el, { ...last.get(el), [name]: val });
+    el.style.setProperty(name, val);
+  };
+
+  let domeReady = false;
   const clamp = (v) => Math.max(0, Math.min(1, v));
   function update() {
     ticking = false;
@@ -260,38 +280,47 @@ function setupScroll() {
     const y = scrollY;
 
     // hero: names drift up and fade, dome sinks a little slower than the page
-    const hp = clamp(y / vh);
-    heroText.style.transform = `translateY(${-hp * 90}px)`;
-    heroText.style.opacity = 1 - hp * 1.3;
-    if (document.body.classList.contains('opened') && dome.getAnimations().every((a) => a.playState === 'finished')) {
-      dome.style.animation = 'none';
-      dome.style.opacity = 1;
-      dome.style.transform = `translate(-50%, ${hp * 25}%)`;
+    if (y < vh * 1.2) {
+      const hp = clamp(y / vh);
+      heroText.style.transform = `translate3d(0, ${(-hp * 90).toFixed(1)}px, 0)`;
+      heroText.style.opacity = (1 - hp * 1.3).toFixed(3);
+      if (!domeReady && document.body.classList.contains('opened') && dome.getAnimations().every((a) => a.playState === 'finished')) {
+        domeReady = true;
+        dome.style.animation = 'none';
+        dome.style.opacity = 1;
+      }
+      if (domeReady) dome.style.transform = `translate3d(-50%, ${(hp * 25).toFixed(2)}%, 0)`;
     }
 
     // scenes: zoom into the painting while it is pinned, fade the caption in and out
     scenes.forEach((s) => {
+      if (!near.has(s)) return;
       const r = s.getBoundingClientRect();
       const p = clamp(-r.top / (r.height - vh));
-      s.style.setProperty('--zoom', (1 + p * 0.28).toFixed(4));
-      s.style.setProperty('--text', clamp(p < 0.5 ? (p - 0.1) / 0.25 : (0.95 - p) / 0.25).toFixed(3));
+      setVar(s, '--zoom', (1 + p * 0.28).toFixed(3));
+      setVar(s, '--text', clamp(p < 0.5 ? (p - 0.1) / 0.25 : (0.95 - p) / 0.25).toFixed(2));
     });
 
     // journey: the car drives towards you as the section scrolls into view
-    const jr = journey.getBoundingClientRect();
-    journey.style.setProperty('--trip', clamp((vh - jr.top) / (jr.height + vh * 0.1)).toFixed(4));
+    if (near.has(journey)) {
+      const jr = journey.getBoundingClientRect();
+      setVar(journey, '--trip', clamp((vh - jr.top) / (jr.height + vh * 0.1)).toFixed(3));
+    }
 
     // route map: the road draws itself from Prayagraj to Gorakhpur and the marker follows it
-    const mr = routeMap.getBoundingClientRect();
-    const rp = clamp((vh * 0.85 - mr.top) / (vh * 0.55));
-    routeLine.style.strokeDashoffset = routeLen * (1 - rp);
-    const pt = routeLine.getPointAtLength(routeLen * rp);
-    routeCar.style.left = `${(pt.x / 600) * 100}%`;
-    routeCar.style.top = `${(pt.y / 240) * 100}%`;
-    routeMap.classList.toggle('arrived', rp >= 1);
-    towns.forEach((t) => t.classList.toggle('passed', rp >= +t.dataset.at));
+    if (near.has(routeMap)) {
+      const mr = routeMap.getBoundingClientRect();
+      const rp = clamp((vh * 0.85 - mr.top) / (vh * 0.55));
+      routeLine.style.strokeDashoffset = (routeLen * (1 - rp)).toFixed(1);
+      const pt = routeLine.getPointAtLength(routeLen * rp);
+      routeCar.style.left = `${(pt.x / 600) * 100}%`;
+      routeCar.style.top = `${(pt.y / 240) * 100}%`;
+      routeMap.classList.toggle('arrived', rp >= 1);
+      towns.forEach((t) => t.classList.toggle('passed', rp >= +t.dataset.at));
+    }
   }
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  function requestUpdate() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  addEventListener('scroll', requestUpdate, { passive: true });
   addEventListener('resize', update);
   update();
 }
