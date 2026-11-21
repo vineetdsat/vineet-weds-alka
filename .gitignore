@@ -2,3 +2,5 @@ assets/raw/
 .claude/
 .DS_Store
 prep-backgrounds.sh
+android-widget/
+*.apk
